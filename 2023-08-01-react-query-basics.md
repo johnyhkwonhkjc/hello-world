@@ -1,75 +1,77 @@
 ## Introduction
+
 What is react-query? It is a library for fetching data in a React application. Since React is a UI library, there is no specific pattern for data fetching. If data is needed in React, we usually use state management libraries. However, these state management libraries are good for working with client state, not with working with asynchronous or server state. This is where react-query comes into place. React-query is a library that **ease the process of caching, deduping multiple requests for the same data, updating stale data in the background, and performance optimizations**. 
 
 In this article, we will discuss about what useQuery in react-query is, and some important basic options that are used with useQuery.
 
 ## What is useQuery?
+
 By using react-query's useQuery, we do not have to manage state variables like isLoading, data, and error based on useEffect. It makes us to write less code, since react-query's useQuery returns flags that we could use. For example, the normal way of writing a fetch request in react would be 
 
-`import React, { useState, useEffect } from 'react';
-
-function Todos() {
-  const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
-  const [data, setData] = useState([]);
-  const [error, setError] = useState(null);
-
-  useEffect(() => {
-    fetchTodoList()
-      .then((result) => {
-        setData(result);
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        setError(error);
-        setIsError(true);
-        setIsLoading(false);
-      });
-  }, []);
-
-  if (isLoading) {
-    return <span>Loading...</span>;
-  }
-
-  if (isError) {
-    return <span>Error: {error.message}</span>;
-  }
-
-  return (
-    <ul>
-      {data.map((todo) => (
-        <li key={todo.id}>{todo.title}</li>
-      ))}
-    </ul>
-  );
-}
-
-export default Todos;`
-
-However, by using react-query, we can make the code a lot more simple.
-`function Todos() {
-  const { isLoading, isError, data, error } = useQuery({
-    queryKey: ['todos'],
-    queryFn: fetchTodoList,
-  })
-
-  if (isLoading) {
-    return <span>Loading...</span>
-  }
-
-  if (isError) {
-    return <span>Error: {error.message}</span>
-  }
-
-  // We can assume by this point that `isSuccess === true`
-  return (
-    <ul>
-      {data.map((todo) => (
-        <li key={todo.id}>{todo.title}</li>
-      ))}
-    </ul>
-  )
-}`
+	import React, { useState, useEffect } from 'react';
+	
+	function Todos() {
+	  const [isLoading, setIsLoading] = useState(true);
+	  const [isError, setIsError] = useState(false);
+	  const [data, setData] = useState([]);
+	  const [error, setError] = useState(null);
+	
+	  useEffect(() => {
+	    fetchTodoList()
+	      .then((result) => {
+	        setData(result);
+	        setIsLoading(false);
+	      })
+	      .catch((error) => {
+	        setError(error);
+	        setIsError(true);
+	        setIsLoading(false);
+	      });
+	  }, []);
+	
+	  if (isLoading) {
+	    return <span>Loading...</span>;
+	  }
+	
+	  if (isError) {
+	    return <span>Error: {error.message}</span>;
+	  }
+	
+	  return (
+	    <ul>
+	      {data.map((todo) => (
+	        <li key={todo.id}>{todo.title}</li>
+	      ))}
+	    </ul>
+	  );
+	}
+	
+	export default Todos;`
+	
+	However, by using react-query, we can make the code a lot more simple.
+	`function Todos() {
+	  const { isLoading, isError, data, error } = useQuery({
+	    queryKey: ['todos'],
+	    queryFn: fetchTodoList,
+	  })
+	
+	  if (isLoading) {
+	    return <span>Loading...</span>
+	  }
+	
+	  if (isError) {
+	    return <span>Error: {error.message}</span>
+	  }
+	
+	  // We can assume by this point that `isSuccess === true`
+	  return (
+	    <ul>
+	      {data.map((todo) => (
+	        <li key={todo.id}>{todo.title}</li>
+	      ))}
+	    </ul>
+	  )
+	}
 
 Another advantage of using react-query is that it provides query cache by default. Every query result is cached for five minutes by default (use `cacheTime` to modify it). The first time use query is fired for a unique key, isLoading is set to true and a network request is sent to fetch data. When the request is completed, it is cached using the query key and the query function as unique identifiers. Now when we revisit the page that uses this query to fetch data, react-query will check if the data for this query exists in the cache. If it exists, the cached data is immediately returned without having the need of sending a network request. 
 

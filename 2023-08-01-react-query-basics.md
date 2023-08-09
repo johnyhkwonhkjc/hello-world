@@ -1,4 +1,4 @@
-##Introduction
+## Introduction
 What is react-query? It is a library for fetching data in a React application. Since React is a UI library, there is no specific pattern for data fetching. If data is needed in React, we usually use state management libraries. However, these state management libraries are good for working with client state, not with working with asynchronous or server state. This is where react-query comes into place. React-query is a library that ease the process of caching, deduping multiple requests for the same data, updating stale data in the background, and performance optimizations. 
 
 By using react-query, we do not have to manage state variables like isLoading, data, and error based on useEffect. It makes us to write less code, since react-query returns flags that we could use. For example, the normal way of writing a fetch request in react would be 

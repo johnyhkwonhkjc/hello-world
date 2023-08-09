@@ -8,6 +8,7 @@ In this article, we will discuss about what useQuery in react-query is, and some
 
 By using react-query's useQuery, we do not have to manage state variables like isLoading, data, and error based on useEffect. It makes us to write less code, since react-query's useQuery returns flags that we could use. For example, the normal way of writing a fetch request in react would be 
 
+```jsx
 	import React, { useState, useEffect } from 'react';
 	
 	function Todos() {
@@ -46,9 +47,12 @@ By using react-query's useQuery, we do not have to manage state variables like i
 	  );
 	}
 	
-	export default Todos;`
+	export default Todos;
+```
 	
-	However, by using react-query, we can make the code a lot more simple.
+However, by using react-query's useQuery, we can make the code a lot more simple.
+
+```jsx
 	`function Todos() {
 	  const { isLoading, isError, data, error } = useQuery({
 	    queryKey: ['todos'],
@@ -72,6 +76,7 @@ By using react-query's useQuery, we do not have to manage state variables like i
 	    </ul>
 	  )
 	}
+```
 
 Another advantage of using react-query is that it provides query cache by default. Every query result is cached for five minutes by default (use `cacheTime` to modify it). The first time use query is fired for a unique key, isLoading is set to true and a network request is sent to fetch data. When the request is completed, it is cached using the query key and the query function as unique identifiers. Now when we revisit the page that uses this query to fetch data, react-query will check if the data for this query exists in the cache. If it exists, the cached data is immediately returned without having the need of sending a network request. 
 
